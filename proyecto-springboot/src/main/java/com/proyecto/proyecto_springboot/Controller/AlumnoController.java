@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 
 @RestController
@@ -15,17 +14,9 @@ import java.net.URI;
 public class AlumnoController {
 
     private final AlumnoService alumnoService;
-
     public AlumnoController(AlumnoService alumnoService) {
         this.alumnoService = alumnoService;
     }
-
-    @GetMapping
-    public Page<Alumno> getAll(@RequestParam int page, @RequestParam int size) {
-        Pageable pageable  = PageRequest.of(page, size);
-        return alumnoService.findAll(pageable);
-    }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Alumno> getById(@PathVariable Integer id) {
@@ -34,20 +25,19 @@ public class AlumnoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
     @PostMapping
     public ResponseEntity<Alumno> create(@RequestBody Alumno alumno) {
         Alumno creado = alumnoService.create(alumno);
-        return ResponseEntity.created(URI.create("/api/alumnos/" + creado.getId_alumno()))
+        return ResponseEntity
+                .created(URI.create("/api/alumnos/" + creado.getId_alumno()))
                 .body(creado);
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<Alumno> update(@PathVariable Integer id, @RequestBody Alumno alumno) {
-        return ResponseEntity.ok(alumnoService.update(id, alumno));
+        Alumno actualizado = alumnoService.update(id, alumno);
+        return (actualizado != null) ? ResponseEntity.ok(actualizado) : ResponseEntity.notFound().build();
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
