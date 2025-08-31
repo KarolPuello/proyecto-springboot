@@ -1,69 +1,40 @@
 package com.proyecto.proyecto_springboot.Model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notas")
-public class Nota {
+public class Notas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_nota")
     private Long id;
 
-    @Column(name = "nota", nullable = false)
-    private Double nota;
+    private String titulo;
+    private String contenido;
+    private LocalDateTime fechaCreacion;
 
-    @Column(name = "tipo_evaluacion", length = 50, nullable = false)
-    private String tipoEvaluacion;
-
-    @Column(name = "fecha_evaluacion", nullable = false)
-    private LocalDate fechaEvaluacion;
-
-    // Relación con inscripción (FK)
-    @ManyToOne
-    @JoinColumn(name = "id_inscripcion", nullable = false)
-    private Inscripcion inscripcion;
-
-    // Getters y Setters
-    public Long getId() {
-        return id;
+    public Notas() {
+        this.fechaCreacion = LocalDateTime.now();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Notas(String titulo, String contenido) {
+        this.titulo = titulo;
+        this.contenido = contenido;
+        this.fechaCreacion = LocalDateTime.now();
     }
 
-    public Double getNota() {
-        return nota;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setNota(Double nota) {
-        this.nota = nota;
-    }
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
 
-    public String getTipoEvaluacion() {
-        return tipoEvaluacion;
-    }
+    public String getContenido() { return contenido; }
+    public void setContenido(String contenido) { this.contenido = contenido; }
 
-    public void setTipoEvaluacion(String tipoEvaluacion) {
-        this.tipoEvaluacion = tipoEvaluacion;
-    }
-
-    public LocalDate getFechaEvaluacion() {
-        return fechaEvaluacion;
-    }
-
-    public void setFechaEvaluacion(LocalDate fechaEvaluacion) {
-        this.fechaEvaluacion = fechaEvaluacion;
-    }
-
-    public Inscripcion getInscripcion() {
-        return inscripcion;
-    }
-
-    public void setInscripcion(Inscripcion inscripcion) {
-        this.inscripcion = inscripcion;
-    }
+    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
+    public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 }
+
